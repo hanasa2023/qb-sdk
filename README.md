@@ -1,10 +1,66 @@
-# QQ 频道机器人 SDK qq-guild-bot
+# qb-sdk
 
-用于开发 QQ 频道机器人的 Node.js SDK。
+基于 QQ 官方 node sdk 的改版
 
-## 使用文档
+## ✨：新增特性
 
-[NodeSDK 文档](https://bot.q.qq.com/wiki/develop/nodesdk/)
+### 增加群消息订阅
+
+```typescript
+ws.on(AvailableIntentsEventsEnum.GROUP_AND_C2C_EVENT, (data) => {
+  console.log(`[GROUP_AND_C2C_EVENT] 事件接收: ${data}`)
+})
+```
+
+### 单/群聊发送/删除消息
+
+- 单聊
+
+```typescript
+client.v2MessageApi.postC2CMessage(openID, {
+  content: 'hello world',
+  msg_type: 0, // 0.文本 1.图文混排 2.markdown 3.ark 4.embed 7.media
+})
+```
+
+```typescript
+client.v2MessageApi.deleteC2CMessage(openID, messageID)
+```
+
+- 群聊
+
+```typescript
+client.v2MessageApi.postGroupMessage(openID, {
+  content: 'hello world',
+  msg_type: 0, // 0.文本 1.图文混排 2.markdown 3.ark 4.embed 7.media
+})
+```
+
+```typescript
+client.v2MessageApi.deleteGroupMessgae(openID, messageID)
+```
+
+### 发送富媒体消息
+
+- 单聊
+
+```typescript
+client.v2MessageApi.postC2CMediaMessage(openID, {
+  file_type: 1, //媒体类型：1 图片，2 视频，3 语音，4 文件（暂不开放）
+  url: 'https://www.example.com/example.png',
+  srv_send_msg: false, //设置 true 会直接发送消息到目标端，且会占用主动消息频次
+})
+```
+
+- 群聊
+
+```typescript
+client.v2MessageApi.postGroupMediaMessage(openID, {
+  file_type: 1, //媒体类型：1 图片，2 视频，3 语音，4 文件（暂不开放）
+  url: 'https://www.example.com/example.png',
+  srv_send_msg: false, //设置 true 会直接发送消息到目标端，且会占用主动消息频次
+})
+```
 
 ## 本地开发
 
@@ -28,23 +84,3 @@ npm run example
 - 👏 如果您有针对 SDK 的错误修复，请以分支`fix/xxx`向`main`分支发 PR
 - 👏 如果您有新的内容贡献，请以分支`feature/xxx`向`main`分支发起 PR
 - 👏 如果您有相关的建议或意见，请提[issues](https://github.com/tencent-connect/bot-node-sdk/issues)
-
-## 加入官方社区
-
-欢迎扫码加入**QQ 频道开发者社区**。
-
-![开发者社区](https://mpqq.gtimg.cn/privacy/qq_guild_developer.png)
-
-## 贡献者
-
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<a href="https://github.com/tencent-connect/bot-node-sdk/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=tencent-connect/bot-node-sdk" />
-</a>
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
-
-## 注意
-
-`qq-guild-bot`自`v2.0.0`开始，被用作 QQ 频道机器人官方 SDK。原`qq-guild-bot`对应的能力，已迁移到[qq-guild-bot-es](https://www.npmjs.com/package/qq-guild-bot-es)，请知晓!

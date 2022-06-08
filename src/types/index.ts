@@ -1,4 +1,5 @@
-export type Nullish = null | undefined;
+export type Nullish = null | undefined
 
-export * from './websocket-types';
-export * from './openapi';
+export * from './websocket-types'
+export * from './openapi'
+export * from './eventdata'

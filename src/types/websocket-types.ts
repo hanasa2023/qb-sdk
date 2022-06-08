@@ -1,62 +1,62 @@
-import { apiVersion } from '@src/openapi/v1/openapi';
-import { getURL } from '@src/openapi/v1/resource';
-import { buildUrl } from '@src/utils/utils';
+import { apiVersion } from '@src/openapi/v1/openapi'
+import { getURL } from '@src/openapi/v1/resource'
+import { buildUrl } from '@src/utils/utils'
 
 // websocket建立成功回包
 export interface wsResData {
-  op: number; // opcode ws的类型
+  op: number // opcode ws的类型
   d?: {
     // 事件内容
-    heartbeat_interval?: number; // 心跳时间间隔
-  };
-  s: number; // 心跳的唯一标识
-  t: string; // 事件类型
-  id?: string; // 事件ID
+    heartbeat_interval?: number // 心跳时间间隔
+  }
+  s: number // 心跳的唯一标识
+  t: string // 事件类型
+  id?: string // 事件ID
 }
 
 // 发送心跳入参
 export interface HeartbeatParam {
-  op: number;
-  d: number;
+  op: number
+  d: number
 }
 
 // 事件分发类型
 export interface EventTypes {
-  eventType: string;
-  eventMsg?: object;
+  eventType: string
+  eventMsg?: object
 }
 
 // 请求得到ws地址的参数
 export interface GetWsParam {
-  appID: string;
-  token: string;
-  sandbox?: boolean;
-  shards?: Array<number>;
-  intents?: Array<AvailableIntentsEventsEnum>;
-  maxRetry?: number;
+  appID: string
+  token: string
+  sandbox?: boolean
+  shards?: Array<number>
+  intents?: Array<AvailableIntentsEventsEnum>
+  maxRetry?: number
 }
 
 // 请求ws地址回包对象
 export interface WsAddressObj {
-  url: string;
-  shards: number;
+  url: string
+  shards: number
   session_start_limit: {
-    total: number;
-    remaining: number;
-    reset_after: number;
-    max_concurrency: number;
-  };
+    total: number
+    remaining: number
+    reset_after: number
+    max_concurrency: number
+  }
 }
 
 // ws信息
 export interface WsDataInfo {
-  data: WsAddressObj;
+  data: WsAddressObj
 }
 
 // 会话记录
 export interface SessionRecord {
-  sessionID: string;
-  seq: number;
+  sessionID: string
+  seq: number
 }
 
 // 心跳参数
@@ -78,6 +78,7 @@ export enum AvailableIntentsEventsEnum {
   GUILD_MESSAGES = 'GUILD_MESSAGES',
   GUILD_MESSAGE_REACTIONS = 'GUILD_MESSAGE_REACTIONS',
   DIRECT_MESSAGE = 'DIRECT_MESSAGE',
+  GROUP_AND_C2C_EVENT = 'GROUP_AND_C2C_EVENT',
   FORUMS_EVENT = 'FORUMS_EVENT',
   AUDIO_ACTION = 'AUDIO_ACTION',
   PUBLIC_GUILD_MESSAGES = 'PUBLIC_GUILD_MESSAGES',
@@ -112,6 +113,18 @@ export const WsEventType: { [key: string]: AvailableIntentsEventsEnum } = {
   DIRECT_MESSAGE_CREATE: AvailableIntentsEventsEnum.DIRECT_MESSAGE, // 当收到用户发给机器人的私信消息时
   DIRECT_MESSAGE_DELETE: AvailableIntentsEventsEnum.DIRECT_MESSAGE, // 删除（撤回）消息事件
 
+  //  ======= GROUP_AND_C2C_EVENT ======
+  C2C_MESSAGE_CREATE: AvailableIntentsEventsEnum.GROUP_AND_C2C_EVENT, // 当用户在单聊发送消息给机器人时触发
+  GROUP_AT_MESSAGE_CREATE: AvailableIntentsEventsEnum.GROUP_AND_C2C_EVENT, // 当用户在群聊发送@机器人发送消息时触发
+  GROUP_ADD_ROBOT: AvailableIntentsEventsEnum.GROUP_AND_C2C_EVENT, // 当机器人加入群聊时触发
+  GROUP_DEL_ROBOT: AvailableIntentsEventsEnum.GROUP_AND_C2C_EVENT, // 当机器人退出群聊时触发
+  GROUP_MSG_REJECT: AvailableIntentsEventsEnum.GROUP_AND_C2C_EVENT, // 当群管理员主动在机器人资料页操作关闭通知时触发
+  GROUP_MSG_RECEIVE: AvailableIntentsEventsEnum.GROUP_AND_C2C_EVENT, // 当群管理员主动在机器人资料页操作开启通知时触发
+  FRIEND_ADD: AvailableIntentsEventsEnum.GROUP_AND_C2C_EVENT, // 当用户添加机器人到好友列表时触发
+  FRIEND_DEL: AvailableIntentsEventsEnum.GROUP_AND_C2C_EVENT, // 当用户删除机器人好友时触发
+  C2C_MSG_REJECT: AvailableIntentsEventsEnum.GROUP_AND_C2C_EVENT, // 当用户在机器人资料卡手动关闭主动消息推送时触发
+  C2C_MSG_RECEIVE: AvailableIntentsEventsEnum.GROUP_AND_C2C_EVENT, // 当用户在机器人资料卡手动开启主动消息推送时触发
+
   //  ======= INTERACTION ======
   INTERACTION_CREATE: AvailableIntentsEventsEnum.INTERACTION, // 互动事件创建时
 
@@ -138,7 +151,7 @@ export const WsEventType: { [key: string]: AvailableIntentsEventsEnum } = {
   //  ======= PUBLIC_GUILD_MESSAGES ======
   AT_MESSAGE_CREATE: AvailableIntentsEventsEnum.PUBLIC_GUILD_MESSAGES, // 机器人被@时触发
   PUBLIC_MESSAGE_DELETE: AvailableIntentsEventsEnum.PUBLIC_GUILD_MESSAGES, // 当频道的消息被删除时
-};
+}
 
 export const WSCodes = {
   1000: 'WS_CLOSE_REQUESTED',
@@ -147,7 +160,7 @@ export const WSCodes = {
   4011: 'SHARDING_REQUIRED',
   4013: 'INVALID_INTENTS',
   4014: 'DISALLOWED_INTENTS',
-};
+}
 
 // websocket错误码
 export const enum WebsocketCode {
@@ -220,11 +233,11 @@ export const WebsocketCloseReason = [
     code: 4915,
     reason: '机器人已封禁,不允许连接,请断开连接,申请解封后再连接',
   },
-];
+]
 
 export type IntentEventsMapType = {
-  [key in AvailableIntentsEventsEnum]: number;
-};
+  [key in AvailableIntentsEventsEnum]: number
+}
 
 // 用户输入的intents类型
 export const IntentEvents: IntentEventsMapType = {
@@ -233,12 +246,13 @@ export const IntentEvents: IntentEventsMapType = {
   GUILD_MESSAGES: 1 << 9,
   GUILD_MESSAGE_REACTIONS: 1 << 10,
   DIRECT_MESSAGE: 1 << 12,
+  GROUP_AND_C2C_EVENT: 1 << 25,
   INTERACTION: 1 << 26,
   MESSAGE_AUDIT: 1 << 27,
   FORUMS_EVENT: 1 << 28,
   AUDIO_ACTION: 1 << 29,
   PUBLIC_GUILD_MESSAGES: 1 << 30,
-};
+}
 
 // intents
 export const Intents = {
@@ -257,7 +271,7 @@ export const Intents = {
   DIRECT_MESSAGES: 12,
   DIRECT_MESSAGE_REACTIONS: 13,
   DIRECT_MESSAGE_TYPING: 14,
-};
+}
 
 // Session事件
 export const SessionEvents = {
@@ -270,7 +284,7 @@ export const SessionEvents = {
   EVENT_WS: 'EVENT_WS', // 内部通信
   RESUMED: 'RESUMED', // 重连
   DEAD: 'DEAD', // 连接已死亡，请检查网络或重启
-};
+}
 
 // ws地址配置
 export const WsObjRequestOptions = (sandbox: boolean) => ({
@@ -284,4 +298,4 @@ export const WsObjRequestOptions = (sandbox: boolean) => ({
     'User-Agent': apiVersion,
     Authorization: '',
   },
-});
+})

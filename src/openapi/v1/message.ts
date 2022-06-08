@@ -1,13 +1,13 @@
-import { Config, OpenAPIRequest, IMessage, IMessageRes, MessageAPI, MessagesPager, MessageToCreate } from '@src/types';
-import { RestyResponse } from 'resty-client';
-import { getURL } from './resource';
+import { Config, OpenAPIRequest, IMessage, IMessageRes, MessageAPI, MessagesPager, MessageToCreate } from '@src/types'
+import { RestyResponse } from 'resty-client'
+import { getURL } from './resource'
 
 export default class Message implements MessageAPI {
-  public request: OpenAPIRequest;
-  public config: Config;
+  public request: OpenAPIRequest
+  public config: Config
   constructor(request: OpenAPIRequest, config: Config) {
-    this.request = request;
-    this.config = config;
+    this.request = request
+    this.config = config
   }
   // 获取指定消息
   public message(channelID: string, messageID: string): Promise<RestyResponse<IMessageRes>> {
@@ -18,15 +18,15 @@ export default class Message implements MessageAPI {
         channelID,
         messageID,
       },
-    };
-    return this.request<IMessageRes>(options);
+    }
+    return this.request<IMessageRes>(options)
   }
   // 获取消息列表
   public messages(channelID: string, pager?: MessagesPager): Promise<RestyResponse<IMessage[]>> {
-    const params = Object.create(null);
+    const params = Object.create(null)
     if (pager && pager.type && pager.id) {
-      params[pager.type] = pager.id;
-      params.limit = pager.limit || 20;
+      params[pager.type] = pager.id
+      params.limit = pager.limit || 20
     }
 
     const options = {
@@ -36,8 +36,8 @@ export default class Message implements MessageAPI {
         channelID,
       },
       params,
-    };
-    return this.request<IMessage[]>(options);
+    }
+    return this.request<IMessage[]>(options)
   }
 
   // 发送消息
@@ -49,15 +49,15 @@ export default class Message implements MessageAPI {
         channelID,
       },
       data: message,
-    };
-    return this.request<IMessage>(options);
+    }
+    return this.request<IMessage>(options)
   }
 
   // 撤回消息
   public deleteMessage(channelID: string, messageID: string, hideTip?: boolean): Promise<RestyResponse<any>> {
-    const params = Object.create(null);
+    const params = Object.create(null)
     if (hideTip) {
-      params.hidetip = hideTip;
+      params.hidetip = hideTip
     }
     const options = {
       method: 'DELETE' as const,
@@ -67,7 +67,7 @@ export default class Message implements MessageAPI {
         messageID,
       },
       params,
-    };
-    return this.request(options);
+    }
+    return this.request(options)
   }
 }

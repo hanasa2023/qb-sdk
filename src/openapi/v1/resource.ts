@@ -36,5 +36,11 @@ const apiMap = {
   interactionURI: '/interactions/:interactionID',
   guildVoiceMembersURI: '/channels/:channelID/voice/members', // 语音子频道在线成员车查询
   botMic: '/channels/:channelID/mic', // 机器人上麦|下麦
-};
-export const getURL = (endpoint: keyof typeof apiMap) => apiMap[endpoint];
+  c2cMessageURI: '/v2/users/:openID/messages',
+  groupMessageURI: '/v2/groups/:groupOpenID/messages',
+  c2cMediaMessageURI: '/v2/users/:openID/files',
+  groupMediaMessageURI: '/v2/groups/:groupOpenID/files',
+  deleteC2CMessageURI: '/v2/users/:openID/messages/:messageID',
+  deleteGroupMessageURI: '/v2/groups/:groupOpenID/messages/:messageID',
+}
+export const getURL = (endpoint: keyof typeof apiMap) => apiMap[endpoint]
