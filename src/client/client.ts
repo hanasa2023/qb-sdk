@@ -1,6 +1,6 @@
 import { GetWsParam, SessionEvents, SessionRecord, WebsocketCloseReason } from '@src/types/websocket-types'
 import Session from '@src/client/session/session'
-import { EventEmitter } from 'ws'
+import { EventEmitter } from 'events'
 // import { BotLogger } from '@src/utils/logger';
 import BotLogger from 'node-color-log'
 
