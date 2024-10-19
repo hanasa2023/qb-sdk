@@ -1,6 +1,6 @@
 {
   "name": "qb-sdk",
-  "version": "1.0.3",
+  "version": "1.0.6",
   "description": "基于QQ官方node sdk的改版",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
