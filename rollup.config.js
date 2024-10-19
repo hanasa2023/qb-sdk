@@ -1,14 +1,14 @@
-import babel from '@rollup/plugin-babel';
-import commonjs from '@rollup/plugin-commonjs';
-import { nodeResolve } from '@rollup/plugin-node-resolve';
-import { typescriptPaths } from 'rollup-plugin-typescript-paths';
-import replace from '@rollup/plugin-replace';
-import dts from 'rollup-plugin-dts';
-import json from '@rollup/plugin-json';
+import babel from '@rollup/plugin-babel'
+import commonjs from '@rollup/plugin-commonjs'
+import { nodeResolve } from '@rollup/plugin-node-resolve'
+import { typescriptPaths } from 'rollup-plugin-typescript-paths'
+import replace from '@rollup/plugin-replace'
+import dts from 'rollup-plugin-dts'
+import json from '@rollup/plugin-json'
 
-const ENV = process.env.NODE_ENV;
-const extensions = ['.ts', '.js'];
-const external = ['ws', 'resty-client'];
+const ENV = process.env.NODE_ENV
+const extensions = ['.ts', '.js']
+const external = ['ws', 'resty-client']
 
 export default [
   {
@@ -73,5 +73,6 @@ export default [
       }),
       dts(),
     ],
+    external,
   },
-];
+]
